@@ -2,10 +2,26 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
+
+
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) { 
+  
+  // Generate random number 
+  var j = Math.floor(Math.random() * (i + 1));
+  var temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+  }
+  return array;
+}
+const ele = shuffleArray([...Array(24).keys()])
 function App() {
+  
+
   return (
     <>
-    <Modal
+    <Modal elements = {ele}
     />
      <div className="section">
       <div className="container">
