@@ -2,11 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
+import { useState } from 'react';
+
+
+
+
 function App() {
+  const [condition, setCondition] = useState(false)
+  const onClickHandle = () => {
+    if(condition){
+      setCondition(false)
+    }else{
+      setCondition(true)
+    }
+  }
   return (
     <>
-    <Modal
-    />
+    {condition ? <Modal /> : ""}
      <div className="section">
       <div className="container">
 
@@ -48,10 +60,11 @@ function App() {
                             placeholder="Your Password"
                             id="logpass"
                             autoComplete="off"
+                            onClick={onClickHandle}
                           />
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4" >submit</a>
+                        <a href="#" className="btn mt-4">submit</a>
                         <p className="mb-0 mt-4 text-center">
                           <a href="#0" className="link">Forgot your password?</a>
                         </p>
@@ -92,10 +105,11 @@ function App() {
                             placeholder="Your Password"
                             id="logpass"
                             autoComplete="off"
+                            onClick={onClickHandle}
                           />
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4">submit</a>
+                        <a href="#" className="btn mt-4" onClick={onClickHandle}>submit</a>
                       </div>
                     </div>
                   </div>
