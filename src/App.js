@@ -3,7 +3,7 @@ import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
 import { useState } from 'react';
-
+import {sendPostRequest} from './utils/postData'
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) { 
@@ -18,25 +18,42 @@ function shuffleArray(array) {
   
   return array;
 }
-const elements = shuffleArray([...Array(28).keys()]);
+const elementsSignUp = shuffleArray([...Array(28).keys()]);
+const elementsLogin= shuffleArray([...Array(28).keys()]);
 
 function App() {
-  const [condition, setCondition] = useState(false)
-  const [password, setPassword] = useState(false)
-  const [selectedArray, setSelectedArray] = useState([]);
+  const [conditionSignUp, setConditionSignUp] = useState(false)
+  const [conditionLogin, setConditionLogin] = useState(false)
+  const [signUpPassword, setSignUpPassword] = useState(false)
+  const [loginPassword, setLoginPassword] = useState(false)
+
+  const [selectedArraySignUp, setSelectedArraySignUp] = useState([]);
+  const [selectedArrayLogin, setSelectedArrayLogin] = useState([]);
+
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
 
 
-  const onClickHandle = (e) => {
-    if(condition){
-      setCondition(false)
+  const onClickHandleSignup = (e) => {
+    if(conditionSignUp){
+      setConditionSignUp(false)
     }else{
-      setCondition(true)
+      setConditionSignUp(true)
+    }
+  }
+  
+  const onClickHandleLogin= (e) => {
+    if(conditionSignUp){
+      setConditionLogin(false)
+    }else{
+      setConditionLogin(true)
     }
   }
   
   return (
     <>
-    {condition ? <Modal checkPassword = {setPassword} elements = {elements} selectedArray = {selectedArray} setSelectedArray = {setSelectedArray}/> : ""}
+    {conditionSignUp ? <Modal disappearFucntion = {setConditionSignUp} checkPassword = {setSignUpPassword} elements = {elementsSignUp} selectedArray = {selectedArraySignUp} setSelectedArray = {setSelectedArraySignUp}/> : ""}
+    {conditionLogin ? <Modal disappearFucntion = {setConditionLogin} checkPassword = {setLoginPassword} elements = {elementsLogin} selectedArray = {selectedArrayLogin} setSelectedArray = {setSelectedArrayLogin}/> : ""}
      <div className="section">
       <div className="container">
 
@@ -71,15 +88,10 @@ function App() {
                           <i className="input-icon uil uil-at"></i>
                         </div>
                         <div className="form-group mt-2">
-                          <input
-                            type="password"
-                            name="logpass"
-                            className="form-style"
-                            placeholder="Your Password"
+                        <div
+                            className= {loginPassword ? "form-style connected": "form-style"}
                             id="logpass"
-                            autoComplete="off"
-                            onClick={onClickHandle}
-                          />
+                            onClick={onClickHandleLogin}> {loginPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
                         <a href="#" className="btn mt-4">submit</a>
@@ -99,6 +111,8 @@ function App() {
                             name="logname"
                             className="form-style"
                             placeholder="Your Full Name"
+                            value={name}
+                            onChange={(e) => {setName(e.target.value)}}
                             id="logname"
                             autoComplete="off"
                           />
@@ -110,6 +124,8 @@ function App() {
                             name="logemail"
                             className="form-style"
                             placeholder="Your Email"
+                            value={email}
+                            onChange={(e) => {setEmail(e.target.value)}}
                             id="logemail"
                             autoComplete="off"
                           />
@@ -117,12 +133,15 @@ function App() {
                         </div>
                         <div className="form-group mt-2">
                           <div
-                            className= {password ? "form-style connected": "form-style"}
+                            className= {signUpPassword ? "form-style connected": "form-style"}
                             id="logpass"
-                            onClick={onClickHandle}> {password ?  "Password added successfully !":"Click Here to set up Password"}</div>
+                            onClick={onClickHandleSignup}> {signUpPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4" >submit</a>
+                        <a href="#" className="btn mt-4"onClick={() =>{
+                          const password = ""
+                          sendPostRequest(name,email,password)
+                        }} >submit</a>
                       </div>
                     </div>
                   </div>
