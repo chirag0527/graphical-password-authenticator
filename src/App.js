@@ -2,27 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
+import { useState } from 'react';
 
 
-function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) { 
-  
-  // Generate random number 
-  var j = Math.floor(Math.random() * (i + 1));
-  var temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-  }
-  return array;
-}
-const ele = shuffleArray([...Array(24).keys()])
+
+
 function App() {
-  
-
+  const [condition, setCondition] = useState(false)
+  const onClickHandle = () => {
+    if(condition){
+      setCondition(false)
+    }else{
+      setCondition(true)
+    }
+  }
   return (
     <>
-    <Modal elements = {ele}
-    />
+    {condition ? <Modal /> : ""}
      <div className="section">
       <div className="container">
 
@@ -64,10 +60,11 @@ function App() {
                             placeholder="Your Password"
                             id="logpass"
                             autoComplete="off"
+                            onClick={onClickHandle}
                           />
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4" >submit</a>
+                        <a href="#" className="btn mt-4">submit</a>
                         <p className="mb-0 mt-4 text-center">
                           <a href="#0" className="link">Forgot your password?</a>
                         </p>
@@ -108,10 +105,11 @@ function App() {
                             placeholder="Your Password"
                             id="logpass"
                             autoComplete="off"
+                            onClick={onClickHandle}
                           />
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4">submit</a>
+                        <a href="#" className="btn mt-4" onClick={onClickHandle}>submit</a>
                       </div>
                     </div>
                   </div>
