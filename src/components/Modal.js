@@ -3,24 +3,10 @@ import '../styles/modal.css';
 import './Image'
 
 
-function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) { 
-  
-  // Generate random number 
-  var j = Math.floor(Math.random() * (i + 1));
-  
-  var temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-  }
-  
-  return array;
-}
-const elements = shuffleArray([...Array(28).keys()]);
+
 const items = 5
 
-export default function Modal() {
-  const [selectedArray, setSelectedArray] = React.useState([]);
+export default function Modal({checkPassword,setSelectedArray,selectedArray,elements}) {
   const [condition,setCondition] = React.useState(false)
 
   useEffect(() => {
@@ -30,6 +16,11 @@ export default function Modal() {
       setCondition(false);
     }
   }, [selectedArray]);
+
+  const onSubmission = () =>{
+    console.log("check")
+    checkPassword(true)
+  }
 
   function handleOverlay(e) {
     const id = parseInt(e.target.id);
@@ -68,7 +59,7 @@ export default function Modal() {
         </>
           
         ) : (
-          <a href="#" className="btn mt-4" >submit</a>
+          <a href="#" className="btn mt-4" onClick={onSubmission}>submit</a>
         )}
     </div>
   )
