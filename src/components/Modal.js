@@ -7,7 +7,7 @@ export default function Modal({disappearFucntion,checkPassword,setSelectedArray,
   const [condition,setCondition] = React.useState(false)
 
   useEffect(() => {
-    if (selectedArray.length > items || selectedArray < 2) {
+    if (selectedArray.length > items || selectedArray < 3) {
       setCondition(true);
     } else {
       setCondition(false);

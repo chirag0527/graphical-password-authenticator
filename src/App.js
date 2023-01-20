@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {sendPostRequest} from './utils/postData'
 
 function shuffleArray(array) {
@@ -22,6 +22,9 @@ const elementsSignUp = shuffleArray([...Array(28).keys()]);
 const elementsLogin= shuffleArray([...Array(28).keys()]);
 
 function App() {
+  const [signupSubmitButton, setSignupSubmitButton] = useState(false)
+  const [loginSubmitButton, setLoginSubmitButton] = useState(false)
+
   const [conditionSignUp, setConditionSignUp] = useState(false)
   const [conditionLogin, setConditionLogin] = useState(false)
   const [signUpPassword, setSignUpPassword] = useState(false)
@@ -32,6 +35,8 @@ function App() {
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+
+  const[loginEmail, setLoginEmail] = useState("")
 
 
   const onClickHandleSignup = (e) => {
@@ -50,6 +55,22 @@ function App() {
     }
   }
   
+  useEffect(()=>{
+    if(name === "" || email === "" || selectedArraySignUp.length === 0){
+      setSignupSubmitButton(false)
+    }else{
+      setSignupSubmitButton(true)
+    }
+
+  },[name,email,selectedArraySignUp])
+
+  useEffect(()=>{
+    if(loginEmail === "" || selectedArrayLogin.length === 0){
+      setLoginSubmitButton(false)
+    }else{
+      setLoginSubmitButton(true)
+    }
+  },[loginEmail,selectedArrayLogin])
   return (
     <>
     {conditionSignUp ? <Modal disappearFucntion = {setConditionSignUp} checkPassword = {setSignUpPassword} elements = {elementsSignUp} selectedArray = {selectedArraySignUp} setSelectedArray = {setSelectedArraySignUp}/> : ""}
@@ -82,6 +103,8 @@ function App() {
                             name="logemail"
                             className="form-style"
                             placeholder="Your Email"
+                            value={loginEmail}
+                            onChange={(e)=>{setLoginEmail(e.target.value)}}
                             id="logemail"
                             autoComplete="off"
                           />
@@ -94,7 +117,7 @@ function App() {
                             onClick={onClickHandleLogin}> {loginPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4">submit</a>
+                        <a href="#" className={`btn mt-4 ${!loginSubmitButton ? "disabled": ""}`}>submit</a>
                         <p className="mb-0 mt-4 text-center">
                           <a href="#0" className="link">Forgot your password?</a>
                         </p>
@@ -135,13 +158,19 @@ function App() {
                           <div
                             className= {signUpPassword ? "form-style connected": "form-style"}
                             id="logpass"
-                            onClick={onClickHandleSignup}> {signUpPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
+                            //onFocus={()=>{console.log("Modal Selected")}}
+                            //onBlur ={()=>{console.log("Modal DeSelected")}}
+                            onClick={onClickHandleSignup}
+                            >
+                            {signUpPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className="btn mt-4"onClick={() =>{
-                          const password = ""
-                          sendPostRequest(name,email,password)
-                        }} >submit</a>
+                        
+                          <a href="https://www.youtube.com/" className={`btn mt-4 ${!signupSubmitButton ? "disabled": ""}`}onClick={() =>{
+                            const password = ""
+                            sendPostRequest(name,email,password)
+                          }} >submit</a>
+
                       </div>
                     </div>
                   </div>
