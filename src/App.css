@@ -204,6 +204,7 @@ h6 span{
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
   box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+  text-align: left;
 }
 .form-style:focus,
 .form-style:active {
@@ -324,4 +325,7 @@ h6 span{
 	height: 26px;
 	width: auto;
 	display: block;
+}
+.connected{
+  background-color: rgb(12, 107, 12);
 }
