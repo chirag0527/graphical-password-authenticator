@@ -1,12 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
+import React from 'react';
 
-
-export const sendPostRequest = async (name, email, password) => {
+const postData = async (email, hash) => {
   try {
-    const data = { name, email, password };
-    const response = await axios.post('', data);
-    console.log(response);
-  } catch (error) {
-    console.error(error);
+    console.log(typeof hash);
+    console.log(hash);
+    await axios.post('http://localhost:5500/api/tasks', { email, hash });
+  } catch (err) {
+    console.log(err);
   }
-}
+};
+
+export default postData;

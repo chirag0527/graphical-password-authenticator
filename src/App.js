@@ -3,7 +3,10 @@ import './App.css';
 import './components/Modal'
 import Modal from './components/Modal';
 import { useEffect, useState } from 'react';
-import {sendPostRequest} from './utils/postData'
+
+import postData from './utils/postData';
+import getData from './utils/getData';
+import sha256 from './utils/hashing';
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) { 
@@ -73,6 +76,8 @@ function App() {
   },[loginEmail,selectedArrayLogin])
   return (
     <>
+    
+
     {conditionSignUp ? <Modal disappearFucntion = {setConditionSignUp} checkPassword = {setSignUpPassword} elements = {elementsSignUp} selectedArray = {selectedArraySignUp} setSelectedArray = {setSelectedArraySignUp}/> : ""}
     {conditionLogin ? <Modal disappearFucntion = {setConditionLogin} checkPassword = {setLoginPassword} elements = {elementsLogin} selectedArray = {selectedArrayLogin} setSelectedArray = {setSelectedArrayLogin}/> : ""}
      <div className="section">
@@ -117,7 +122,14 @@ function App() {
                             onClick={onClickHandleLogin}> {loginPassword ?  "Password added successfully !":"Click Here to set up Password"}</div>
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="#" className={`btn mt-4 ${!loginSubmitButton ? "disabled": ""}`}>submit</a>
+                        <a href="#" className={`btn mt-4 ${!loginSubmitButton ? "disabled": ""}`} 
+                          onClick={() => {
+                            sha256(selectedArrayLogin.join(''))
+                                .then((data) => {
+                                getData(loginEmail, data);
+                              })
+                              .catch();
+                            }}>submit</a>
                         <p className="mb-0 mt-4 text-center">
                           <a href="#0" className="link">Forgot your password?</a>
                         </p>
@@ -166,9 +178,12 @@ function App() {
                           <i className="input-icon uil uil-lock-alt"></i>
                         </div>
                         
-                          <a href="https://www.youtube.com/" className={`btn mt-4 ${!signupSubmitButton ? "disabled": ""}`}onClick={() =>{
-                            const password = ""
-                            sendPostRequest(name,email,password)
+                          <a href="/" className={`btn mt-4 ${!signupSubmitButton ? "disabled": ""}`}onClick={() =>{
+                             sha256(selectedArraySignUp.join(''))
+                             .then((data) => {
+                               postData(email, data);
+                             })
+                             .catch();
                           }} >submit</a>
 
                       </div>
